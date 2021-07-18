@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+// variables
+
+$color-black: #444;
+$color-white: #fff;
+
+$color-grey: #a6a6a6;
+
+$color-grey-light: #e2e2e2;
+$color-grey-lighter: #f6f6f6;
+
+$color-grey-dark: #676767;
+$color-grey-darker: #5a5a5a;
+
+$space-sm: 0.25rem;
+$space-med: 0.5rem;
+$space-lg: 1rem;
+$space-xl: 2rem;
+$space-xxl: 6rem;
+
+$max-width: 900px;
+
+$box-shadow-1: 0px 4px 2px 0px rgba(50, 50, 50, 0.25);
+
+$border-thin: 1px solid $color-grey;
+
+$radius-1: 2.5rem;
+$radius-2: 0.5rem;
+
+// mixins
+
+@mixin wrapper {
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+@mixin tablet {
+  @media (max-width: 900px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: 600px) {
+    @content;
+  }
+}
+
+// UI components
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  @include tablet {
+    font-size: 87.5%;
+  }
+
+  @include mobile {
+    font-size: 75%;
+  }
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+#root {
+  height: 100%;
+  min-height: 100vh;
+  background-color: $color-grey-lighter;
+}
+
+main {
+  @include wrapper;
+  min-height: calc(100% - 4rem);
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, max-content);
+
+  grid-gap: $space-xl;
+
+  @include tablet {
+    padding: 0 $space-med;
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.header-1,
+.header-2,
+.header-3 {
+  color: $color-black;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.header-1 {
+  font-size: 2.4rem;
+}
+
+.header-2 {
+  font-size: 2rem;
+
+  @include mobile {
+    font-size: 1.8rem;
+  }
+}
+
+.header-3 {
+  font-size: 1.6rem;
+
+  @include mobile {
+    font-size: 1.4rem;
+  }
+}
+
+.p-1,
+.p-2 {
+  line-height: 1.6;
+  margin: $space-med 0;
+}
+
+.p-1 {
+  font-size: 1rem;
+  color: $color-grey-darker;
+  font-weight: 400;
+}
+
+.p-2 {
+  font-size: 0.8rem;
+  color: $color-grey-dark;
+  font-weight: 500;
+}
+
+.bold {
+  color: $color-black;
+  font-weight: 500;
+  text-transform: capitalize;
+
+  z-index: 1;
+}
+
+.link {
+  display: inline-flex;
+  position: relative;
+  text-decoration: none;
+
+  .bold {
+    padding: 0 $space-sm;
+  }
+
+  .bg {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 10%;
+    width: 100%;
+    background-color: $color-grey-light;
+    z-index: 0;
+    transition: height 100ms;
+  }
+
+  &:hover {
+    .bg {
+      height: 40%;
+    }
+  }
+}
+
+input {
+  color: inherit;
+  font: inherit;
+  background-color: inherit;
+  outline: none;
+  border: none;
+}
+
+.icon-link {
+  svg {
+    width: 2.8rem;
+    height: 2.8rem;
+    fill: $color-grey-darker;
+    transition: all 100ms;
+    cursor: pointer;
+  }
+
+  &:hover {
+    svg {
+      fill: $color-black;
+      transform: scale(1.15);
+    }
+  }
+}

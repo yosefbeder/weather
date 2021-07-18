@@ -1,0 +1,135 @@
+@import '../../index.scss';
+
+.header {
+  height: 4rem;
+  border-bottom: $border-thin;
+  background-color: $color-white;
+  margin-bottom: $space-xl;
+}
+
+.content {
+  @include wrapper;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @include tablet {
+    padding: 0 $space-med;
+  }
+}
+
+.logo {
+  text-decoration: none;
+}
+
+.input-search {
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
+
+  background-color: $color-grey-lighter;
+  color: $color-grey-darker;
+  padding: 0 $space-lg;
+  border: $border-thin;
+  border-radius: $radius-1;
+
+  &,
+  .input {
+    transition: background-color 300ms;
+  }
+
+  .input {
+    margin-left: $space-lg;
+
+    &--desktop-tablet {
+      flex: 1;
+      display: block;
+
+      @include tablet {
+        flex: 0 0;
+        width: 15rem;
+      }
+
+      @include mobile {
+        display: none;
+      }
+    }
+
+    &--mobile {
+      display: none;
+      width: 10rem;
+      @include mobile {
+        display: block;
+      }
+    }
+  }
+
+  button {
+    display: none;
+  }
+
+  &:focus-within {
+    background-color: $color-grey-light;
+  }
+}
+
+.input-toggle {
+  height: 2.5rem;
+  width: 5rem;
+  padding: $space-sm;
+  border-radius: $radius-1;
+  border: $border-thin;
+  background-color: $color-grey-lighter;
+  cursor: pointer;
+}
+
+.slider {
+  width: calc(50% - #{$space-sm});
+  height: 100%;
+  border-radius: $radius-1;
+
+  background-image: linear-gradient(to top, $color-black, $color-grey-dark);
+  color: $color-white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+
+  transition: margin 100ms;
+}
+
+.slider--F {
+  margin-left: calc(50% + #{$space-sm});
+}
+
+.input-toggle:hover .slider--F {
+  margin-left: 50%;
+  box-shadow: $space-sm 0 0 $color-grey-light;
+}
+
+.input-toggle:hover .slider--C {
+  margin-left: $space-sm;
+  box-shadow: -$space-sm 0 0 $color-grey-light;
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.loading-spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+
+  border: 0.15rem solid $color-grey-light;
+  border-left-color: $color-grey;
+  border-radius: 50%;
+
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

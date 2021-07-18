@@ -1,0 +1,15 @@
+@import '../../index.scss';
+
+.card {
+  grid-column: 2 / 3;
+  grid-row: 2 / 4;
+
+  @include mobile {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+
+  background-color: $color-white;
+  border-radius: $radius-2;
+  border: $border-thin;
+}

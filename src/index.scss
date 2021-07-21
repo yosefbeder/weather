@@ -185,10 +185,10 @@ input {
 
 .icon-link {
   svg {
-    width: 2.8rem;
-    height: 2.8rem;
+    width: 3.4rem;
+    height: 3.4rem;
     fill: $color-grey-darker;
-    transition: all 100ms;
+    transition: transform 100ms;
     cursor: pointer;
   }
 

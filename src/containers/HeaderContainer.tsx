@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { HeaderComponent } from '../components';
 import { useAppDispatch } from '../hooks';
-import { weatherActions } from '../store/weather-slice';
+import { actions as weatherActions } from '../store/weather-slice';
 
-export default function HeaderContainer() {
+const HeaderContainer = () => {
   const dispatch = useAppDispatch();
 
   const history = useHistory();
@@ -36,4 +36,6 @@ export default function HeaderContainer() {
       onTypeToggle={onTypeToggle}
     />
   );
-}
+};
+
+export default HeaderContainer;

@@ -1,9 +1,8 @@
 import React from 'react';
 import routes from './routes';
-
 import { Switch, Route } from 'react-router';
 
-export default function App() {
+const App = () => {
   return (
     <Switch>
       {routes.map(({ path, component }, key) => (
@@ -11,4 +10,6 @@ export default function App() {
       ))}
     </Switch>
   );
-}
+};
+
+export default App;

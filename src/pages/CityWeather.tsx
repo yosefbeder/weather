@@ -6,11 +6,13 @@ import Loading from '../containers/LoadingContainer';
 
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { useEffect } from 'react';
-import { fetchLocationData } from '../api/location';
-import { fetchWeatherData } from '../api/weather';
+
 import { useParams } from 'react-router-dom';
 
-export default function CityWeather() {
+import fetchLocationData from '../store/location-slice';
+import fetchWeatherData from '../store/weather-slice';
+
+const CityWeather = () => {
   const dispatch = useAppDispatch();
 
   const { cityName } = useParams<{ cityName: string }>();
@@ -60,4 +62,6 @@ export default function CityWeather() {
       )}
     </>
   );
-}
+};
+
+export default CityWeather;

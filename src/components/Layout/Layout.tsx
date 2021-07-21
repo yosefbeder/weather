@@ -6,12 +6,12 @@ import { useAppSelector } from '../../hooks';
 import { Link, Bold, IconLink } from '../../elements';
 
 import {
-  FaFacebook as Facebook,
-  FaGithub as Github,
-  FaTwitter as Twitter,
-} from 'react-icons/fa';
+  IoLogoFacebook as Facebook,
+  IoLogoGithub as Github,
+  IoLogoTwitter as Twitter,
+} from 'react-icons/io5';
 
-export default function Layout() {
+const Layout = () => {
   const location = useAppSelector(state => state.location.data);
 
   return (
@@ -74,4 +74,6 @@ export default function Layout() {
       <TodayCard />
     </main>
   );
-}
+};
+
+export default Layout;

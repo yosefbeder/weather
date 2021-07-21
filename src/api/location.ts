@@ -1,31 +1,20 @@
-import { locationActions } from '../store/location-slice';
-import { AppDispatch } from '../store';
-import { weatherActions } from '../store/weather-slice';
+import { Data } from '../store/location-slice';
 
-export const fetchLocationData = (cityName: string) => {
-  return async (dispatch: AppDispatch) => {
-    dispatch(locationActions.reset());
-    dispatch(weatherActions.reset());
+const getLocationData = async (cityName: string): Promise<Data> => {
+  const request = await fetch(
+    `https://nominatim.openstreetmap.org/search?city=${cityName}&limit=1&format=json`,
+  );
 
-    dispatch(locationActions.pending());
+  const data = await request.json();
 
-    try {
-      const request = await fetch(
-        `https://nominatim.openstreetmap.org/search?city=${cityName}&limit=1&format=json`,
-      );
+  if (data.length === 0) {
+    console.log('hello');
+    throw new Error();
+  }
 
-      const data = await request.json();
+  const [{ display_name: name, lat, lon }] = data;
 
-      if (data.length === 0) {
-        console.log('hello');
-        throw new Error();
-      }
-
-      const [{ display_name: name, lat, lon }] = data;
-
-      dispatch(locationActions.fulfilled({ name, coords: [+lat, +lon] }));
-    } catch (err) {
-      dispatch(locationActions.rejected());
-    }
-  };
+  return { name, coords: [+lat, +lon] };
 };
+
+export default getLocationData;

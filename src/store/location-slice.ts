@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppDispatch } from '.';
+import getLocationData from '../api/location';
+import { actions as weatherActions } from './weather-slice';
 
 interface Data {
   coords: [number, number];
@@ -20,6 +22,17 @@ const initialState: {
   data: null,
 };
 
+const fetchLocationData = createAsyncThunk<
+  Data,
+  string,
+  { dispatch: AppDispatch }
+>('location/fetchLocationDataStatus', async (cityName: string, thunkApi) => {
+  thunkApi.dispatch(actions.reset());
+  thunkApi.dispatch(weatherActions.reset());
+
+  return await getLocationData(cityName);
+});
+
 const slice = createSlice({
   name: 'location',
   initialState,
@@ -27,21 +40,30 @@ const slice = createSlice({
     reset(state) {
       state.data = null;
     },
-    pending(state) {
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchLocationData.pending, state => {
       state.http.isLoading = true;
       state.http.hasError = false;
-    },
-    fulfilled(state, action: PayloadAction<Data>) {
-      state.http.isLoading = false;
-      state.data = action.payload;
-    },
-    rejected(state) {
+    });
+
+    builder.addCase(
+      fetchLocationData.fulfilled,
+      (state, action: PayloadAction<Data>) => {
+        state.http.isLoading = false;
+        state.data = action.payload;
+      },
+    );
+
+    builder.addCase(fetchLocationData.rejected, state => {
       state.http.isLoading = false;
       state.http.hasError = true;
       state.data = null;
-    },
+    });
   },
 });
 
-export const locationReducer = slice.reducer;
-export const locationActions = slice.actions;
+export const { reducer, actions } = slice;
+export type { Data };
+
+export default fetchLocationData;

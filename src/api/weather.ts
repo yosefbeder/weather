@@ -1,22 +1,45 @@
-import { AppDispatch } from '../store';
-import { weatherActions } from '../store/weather-slice';
+import { TodayData, Data } from '../store/weather-slice';
 
-export const fetchWeatherData = (coords: [number, number]) => {
-  return async (dispatch: AppDispatch) => {
-    console.log('started fetching');
-    dispatch(weatherActions.pending());
+const getTodayData = (data: any): TodayData => {
+  const {
+    current: {
+      dt,
+      sunrise,
+      sunset,
+      temp: now,
+      humidity,
+      wind_speed: windSpeed,
+      weather: [{ icon: iconId, description }],
+    },
+    daily: [
+      {
+        temp: { min, max },
+      },
+    ],
+  } = data;
 
-    try {
-      const request = await fetch(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${coords[0]}&lon=${coords[1]}&exclude=minutely,hourly,alerts&appid=a274453be9598521a3c0b4e4698873e3`,
-      );
-
-      // TODO: filter this silly object and store the result in the data object then set it normally
-      const data = await request.json();
-
-      dispatch(weatherActions.fulfilled(data));
-    } catch (err) {
-      dispatch(weatherActions.rejected());
-    }
+  return {
+    dt: dt * 1000,
+    iconId,
+    description,
+    temp: { min, now, max },
+    sunrise: sunrise * 1000,
+    sunset: sunset * 1000,
+    windSpeed,
+    humidity,
   };
 };
+
+const getWeatherData = async (coords: [number, number]): Promise<Data> => {
+  const request = await fetch(
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${coords[0]}&lon=${coords[1]}&exclude=minutely,hourly,alerts&units=metric&appid=a274453be9598521a3c0b4e4698873e3`,
+  );
+
+  const data = await request.json();
+
+  const today = getTodayData(data);
+
+  return { today };
+};
+
+export default getWeatherData;

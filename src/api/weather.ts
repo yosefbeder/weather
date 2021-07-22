@@ -1,4 +1,4 @@
-import { TodayData, Data } from '../store/weather-slice';
+import { TodayData, WeekDayData, Data } from '../store/weather-slice';
 
 const getTodayData = (data: any): TodayData => {
   const {
@@ -30,16 +30,41 @@ const getTodayData = (data: any): TodayData => {
   };
 };
 
+const getWeekData = (data: any[]): WeekDayData[] => {
+  let result = data.map(
+    ({
+      dt,
+      weather: [{ icon: iconId, description }],
+      temp: { min, max },
+      wind_speed: windSpeed,
+      humidity,
+    }): WeekDayData => {
+      return {
+        dt: dt * 1000,
+        iconId,
+        description,
+        temp: { min, max },
+        windSpeed,
+        humidity,
+      };
+    },
+  );
+
+  return result.slice(0, -2);
+};
+
 const getWeatherData = async (coords: [number, number]): Promise<Data> => {
   const request = await fetch(
-    `https://api.openweathermap.org/data/2.5/onecall?lat=${coords[0]}&lon=${coords[1]}&exclude=minutely,hourly,alerts&units=metric&appid=a274453be9598521a3c0b4e4698873e3`,
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${coords[0]}&lon=${coords[1]}&exclude=minutely,hourly,alerts&units=metric&appid=88b7a16ce2b657eab11842a9ddc2411d`,
   );
 
   const data = await request.json();
 
   const today = getTodayData(data);
 
-  return { today };
+  const weekdays = getWeekData(data.daily);
+
+  return { today, weekdays };
 };
 
 export default getWeatherData;

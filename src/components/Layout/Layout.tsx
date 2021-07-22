@@ -1,5 +1,6 @@
 import React from 'react';
 import TodayCard from '../../containers/TodayCardContainer';
+import WeekCardsList from '../../containers/WeekCardsListContainer';
 import classes from './Layout.module.scss';
 import { useAppSelector } from '../../hooks';
 
@@ -72,6 +73,8 @@ const Layout = () => {
         </div>
       </section>
       <TodayCard />
+      <h2 className={`${classes.header} header-2`}>6-Day Forecast</h2>
+      <WeekCardsList />
     </main>
   );
 };

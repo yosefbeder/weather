@@ -2,8 +2,41 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppDispatch } from '.';
 import getWeatherData from '../api/weather';
 
+import {
+  IoSunnyOutline,
+  IoPartlySunnyOutline,
+  IoCloudyOutline,
+  IoRainyOutline,
+  IoThunderstormOutline,
+  IoSnowOutline,
+  IoEyeOffOutline,
+  IoMoonOutline,
+  IoCloudyNightOutline,
+} from 'react-icons/io5';
+
 // TODO: Change this type into the type that includes that things that you will need to use in this app
-type IconId = '01d' | '02d' | '03d' | '04d' | '05d' | '06d' | '07d' | '50d';
+const iconMap = {
+  '01d': IoSunnyOutline,
+  '01n': IoMoonOutline,
+  '02d': IoPartlySunnyOutline,
+  '02n': IoCloudyNightOutline,
+  '03d': IoCloudyOutline,
+  '03n': IoCloudyOutline,
+  '04d': IoCloudyOutline,
+  '04n': IoCloudyOutline,
+  '09d': IoRainyOutline,
+  '09n': IoRainyOutline,
+  '10d': IoRainyOutline,
+  '10n': IoRainyOutline,
+  '11d': IoThunderstormOutline,
+  '11n': IoThunderstormOutline,
+  '13d': IoSnowOutline,
+  '13n': IoSnowOutline,
+  '50d': IoEyeOffOutline,
+  '50n': IoEyeOffOutline,
+};
+
+type IconId = keyof typeof iconMap;
 
 interface TodayData {
   dt: number;
@@ -20,8 +53,21 @@ interface TodayData {
   humidity: number;
 }
 
+interface WeekDayData {
+  dt: number;
+  iconId: IconId;
+  description: string;
+  temp: {
+    min: number;
+    max: number;
+  };
+  windSpeed: number;
+  humidity: number;
+}
+
 interface Data {
   today: TodayData;
+  weekdays: WeekDayData[];
 }
 
 const initialState: {
@@ -82,6 +128,7 @@ const slice = createSlice({
 });
 
 export const { reducer, actions } = slice;
-export type { TodayData, Data, IconId };
+export type { TodayData, WeekDayData, Data, IconId };
+export { iconMap };
 
 export default fetchWeatherData;

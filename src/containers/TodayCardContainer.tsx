@@ -1,14 +1,8 @@
 import React from 'react';
 import { TodayCardComponent } from '../components';
 import { useAppSelector } from '../hooks';
-
-const getHour = (date: Date) =>
-  new Intl.DateTimeFormat('en-us', {
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(date);
-
-const getF = (C: number) => (C * 9) / 5 + 32;
+import { getDay, getHour } from '../utils/date-utils';
+import { getF } from '../utils/weather-utils';
 
 const TodayCardContainer = () => {
   const type = useAppSelector(state => state.weather.type);
@@ -24,11 +18,7 @@ const TodayCardContainer = () => {
     humidity,
   } = useAppSelector(state => state.weather.data!.today);
 
-  const date = new Intl.DateTimeFormat('en-us', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-  }).format(new Date(dt));
+  const date = getDay(dt);
 
   const deg = type === 'C' ? '℃' : '℉';
 
@@ -44,8 +34,8 @@ const TodayCardContainer = () => {
       date={date}
       description={description}
       temp={temp}
-      sunrise={getHour(new Date(sunrise))}
-      sunset={getHour(new Date(sunset))}
+      sunrise={getHour(sunrise)}
+      sunset={getHour(sunset)}
       windSpeed={Math.round(windSpeed * 3.6)}
       humidity={humidity}
     />

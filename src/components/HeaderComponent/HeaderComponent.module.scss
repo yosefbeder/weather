@@ -33,14 +33,11 @@
   padding: 0 $space-lg;
   border: $border-thin;
   border-radius: $radius-1;
-
-  &,
-  .input {
-    transition: background-color 300ms;
-  }
+  transition: background-color 300ms;
 
   .input {
     margin-left: $space-lg;
+    background-color: transparent;
 
     &--desktop-tablet {
       flex: 1;
